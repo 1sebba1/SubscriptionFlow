@@ -104,3 +104,18 @@ export async function updateSubscription(
   revalidatePath("/");
   return { message: "Subscription updated successfully!", success: true };
 }
+
+export async function deleteSubscription(id: number) {
+  const cookieStore = cookies();
+  const supabase = await createClient(cookieStore);
+
+  const { error } = await supabase.from("subscriptions").delete().eq("id", id);
+
+  if (error) {
+    console.error("Error deleting subscription:", error);
+    return { message: "Failed to delete subscription.", success: false };
+  }
+
+  revalidatePath("/");
+  return { message: "Subscription deleted successfully!", success: true };
+}

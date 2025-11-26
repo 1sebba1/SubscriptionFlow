@@ -1,7 +1,11 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
-import { addSubscription, updateSubscription } from "@/app/actions";
+import { useActionState, useEffect, useState } from "react";
+import {
+  addSubscription,
+  updateSubscription,
+  deleteSubscription,
+} from "@/app/actions";
 import { Subscription } from "@/types/subscription";
 
 interface SubscriptionModalProps {
@@ -24,6 +28,25 @@ export default function SubscriptionModal({
   const action = isEditing ? updateSubscription : addSubscription;
 
   const [state, formAction, isPending] = useActionState(action, initialState);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    if (!subscription) return;
+
+    if (
+      confirm(
+        `Are you sure you want to delete "${subscription.name}"? This action cannot be undone.`,
+      )
+    ) {
+      setIsDeleting(true);
+      const result = await deleteSubscription(subscription.id);
+      setIsDeleting(false);
+
+      if (result.success) {
+        onClose();
+      }
+    }
+  };
 
   useEffect(() => {
     if (state.success) {
@@ -212,31 +235,56 @@ export default function SubscriptionModal({
                   {state.message}
                 </div>
               )}
-              <button
-                type="submit"
-                disabled={isPending}
-                className="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:ring-4 focus:outline-none disabled:opacity-50"
-              >
-                <svg
-                  className="mr-1 -ml-1 h-6 w-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
+              <div className="flex items-center justify-between gap-3">
+                <button
+                  type="submit"
+                  disabled={isPending || isDeleting}
+                  className="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:ring-4 focus:outline-none disabled:opacity-50"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                    clipRule="evenodd"
-                  ></path>
-                </svg>
-                {isPending
-                  ? isEditing
-                    ? "Updating..."
-                    : "Adding..."
-                  : isEditing
-                    ? "Update subscription"
-                    : "Add new subscription"}
-              </button>
+                  <svg
+                    className="mr-1 -ml-1 h-6 w-6"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                      clipRule="evenodd"
+                    ></path>
+                  </svg>
+                  {isPending
+                    ? isEditing
+                      ? "Updating..."
+                      : "Adding..."
+                    : isEditing
+                      ? "Update subscription"
+                      : "Add new subscription"}
+                </button>
+
+                {isEditing && (
+                  <button
+                    type="button"
+                    onClick={handleDelete}
+                    disabled={isPending || isDeleting}
+                    className="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-700 focus:ring-4 focus:ring-red-300 focus:outline-none disabled:opacity-50 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
+                  >
+                    <svg
+                      className="mr-1 -ml-1 h-5 w-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                    {isDeleting ? "Deleting..." : "Delete"}
+                  </button>
+                )}
+              </div>
             </form>
           </div>
         </div>
