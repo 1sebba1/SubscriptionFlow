@@ -7,6 +7,7 @@ import {
   deleteSubscription,
 } from "@/app/actions";
 import { Subscription } from "@/types/subscription";
+import ConfirmDialog from "./ConfirmDialog";
 
 interface SubscriptionModalProps {
   isOpen: boolean;
@@ -29,22 +30,22 @@ export default function SubscriptionModal({
 
   const [state, formAction, isPending] = useActionState(action, initialState);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  const handleDelete = async () => {
+  const handleDeleteClick = () => {
+    setShowDeleteConfirm(true);
+  };
+
+  const handleDeleteConfirm = async () => {
     if (!subscription) return;
 
-    if (
-      confirm(
-        `Are you sure you want to delete "${subscription.name}"? This action cannot be undone.`,
-      )
-    ) {
-      setIsDeleting(true);
-      const result = await deleteSubscription(subscription.id);
-      setIsDeleting(false);
+    setShowDeleteConfirm(false);
+    setIsDeleting(true);
+    const result = await deleteSubscription(subscription.id);
+    setIsDeleting(false);
 
-      if (result.success) {
-        onClose();
-      }
+    if (result.success) {
+      onClose();
     }
   };
 
@@ -265,7 +266,7 @@ export default function SubscriptionModal({
                 {isEditing && (
                   <button
                     type="button"
-                    onClick={handleDelete}
+                    onClick={handleDeleteClick}
                     disabled={isPending || isDeleting}
                     className="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-700 focus:ring-4 focus:ring-red-300 focus:outline-none disabled:opacity-50 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
                   >
@@ -289,6 +290,17 @@ export default function SubscriptionModal({
           </div>
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={showDeleteConfirm}
+        title="Delete Subscription"
+        message={`Are you sure you want to delete "${subscription?.name}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => setShowDeleteConfirm(false)}
+        isDangerous={true}
+      />
     </>
   );
 }
