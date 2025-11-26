@@ -51,7 +51,9 @@ export default async function Home() {
               </span>
             </span>
           </div>
-          <AddSubscriptionButton />
+          <div className="self-end sm:self-auto">
+            <AddSubscriptionButton />
+          </div>
         </div>
 
         <AnalyticsCards subscriptions={subscriptions} />
