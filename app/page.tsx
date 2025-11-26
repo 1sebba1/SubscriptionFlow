@@ -7,6 +7,8 @@ import { Subscription } from "@/types/subscription";
 
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
+import HeaderRow from "@/components/HeaderRow";
+import { StaggerContainer, StaggerItem } from "@/components/AnimationWrapper";
 
 export default async function Home() {
   const cookieStore = cookies();
@@ -39,31 +41,25 @@ export default async function Home() {
         <DarkThemeToggle />
       </div>
 
-      <div className="relative flex w-full max-w-5xl flex-col items-start justify-center gap-12">
-        <div className="relative flex w-full flex-row items-center justify-between gap-6 self-stretch">
-          <div className="relative flex flex-col items-start gap-6">
-            <h1 className="relative text-start text-4xl leading-[125%] font-bold text-gray-900 dark:text-gray-200">
-              Subscriptions
-            </h1>
-            <span className="inline-flex flex-wrap items-center justify-center gap-2.5 text-start">
-              <span className="inline text-xl text-gray-600 dark:text-gray-400">
-                Start Adding Your Subscriptions Now!
-              </span>
-            </span>
+      <StaggerContainer className="relative flex w-full max-w-7xl flex-col items-start justify-center gap-12">
+        <StaggerItem className="w-full">
+          <HeaderRow />
+        </StaggerItem>
+
+        <StaggerItem className="w-full">
+          <AnalyticsCards subscriptions={subscriptions} />
+        </StaggerItem>
+
+        <StaggerItem className="w-full">
+          <hr className="h-px w-[50%] justify-center self-center border-0 bg-gray-200 px-12" />
+        </StaggerItem>
+
+        <StaggerItem className="w-full">
+          <div className="relative flex w-full flex-col items-start gap-6 self-stretch">
+            <SubscriptionList subscriptions={subscriptions} />
           </div>
-          <div className="self-end sm:self-auto">
-            <AddSubscriptionButton />
-          </div>
-        </div>
-
-        <AnalyticsCards subscriptions={subscriptions} />
-
-        <hr className="h-px w-[50%] justify-center self-center border-0 bg-gray-200 px-12" />
-
-        <div className="relative flex w-full flex-col items-start gap-6 self-stretch">
-          <SubscriptionList subscriptions={subscriptions} />
-        </div>
-      </div>
+        </StaggerItem>
+      </StaggerContainer>
     </main>
   );
 }
