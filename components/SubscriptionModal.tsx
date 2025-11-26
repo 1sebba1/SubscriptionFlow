@@ -1,11 +1,13 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { addSubscription } from "@/app/actions";
+import { addSubscription, updateSubscription } from "@/app/actions";
+import { Subscription } from "@/types/subscription";
 
-interface AddSubModalProps {
+interface SubscriptionModalProps {
   isOpen: boolean;
   onClose: () => void;
+  subscription?: Subscription | null; // If provided, we're editing
 }
 
 const initialState = {
@@ -13,11 +15,15 @@ const initialState = {
   success: false,
 };
 
-export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
-  const [state, formAction, isPending] = useActionState(
-    addSubscription,
-    initialState,
-  );
+export default function SubscriptionModal({
+  isOpen,
+  onClose,
+  subscription,
+}: SubscriptionModalProps) {
+  const isEditing = !!subscription;
+  const action = isEditing ? updateSubscription : addSubscription;
+
+  const [state, formAction, isPending] = useActionState(action, initialState);
 
   useEffect(() => {
     if (state.success) {
@@ -37,7 +43,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
 
       {/* Modal */}
       <div
-        id="defaultModal"
+        id="subscriptionModal"
         tabIndex={-1}
         aria-hidden="false"
         className="h-modal fixed top-0 right-0 left-0 z-50 flex w-full items-center justify-center overflow-x-hidden overflow-y-auto md:inset-0 md:h-full"
@@ -46,7 +52,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
           <div className="relative rounded-lg bg-white p-4 shadow sm:p-5 dark:bg-gray-800">
             <div className="mb-4 flex items-center justify-between rounded-t border-b pb-4 sm:mb-5 dark:border-gray-600">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Add Subscription
+                {isEditing ? "Edit Subscription" : "Add Subscription"}
               </h3>
               <button
                 type="button"
@@ -70,6 +76,9 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
               </button>
             </div>
             <form action={formAction}>
+              {isEditing && (
+                <input type="hidden" name="id" value={subscription.id} />
+              )}
               <div className="mb-4 grid gap-4 sm:grid-cols-2">
                 <div>
                   <label
@@ -82,6 +91,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
                     type="text"
                     name="name"
                     id="name"
+                    defaultValue={subscription?.name || ""}
                     className="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     placeholder="Netflix"
                     required={true}
@@ -98,6 +108,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
                     type="text"
                     name="brand"
                     id="brand"
+                    defaultValue={subscription?.brand || ""}
                     className="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     placeholder="Netflix Inc."
                     required={true}
@@ -115,6 +126,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
                     step="0.01"
                     name="price"
                     id="price"
+                    defaultValue={subscription?.price || ""}
                     className="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     placeholder="9.99"
                     required={true}
@@ -130,6 +142,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
                   <select
                     id="frequency"
                     name="frequency"
+                    defaultValue={subscription?.frequency || "monthly"}
                     className="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     required
                   >
@@ -149,6 +162,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
                   <select
                     id="category"
                     name="category"
+                    defaultValue={subscription?.category || ""}
                     className="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     required
                   >
@@ -171,6 +185,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
                     type="date"
                     name="firstPaymentDate"
                     id="firstPaymentDate"
+                    defaultValue={subscription?.firstPaymentDate || ""}
                     className="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     required={true}
                   />
@@ -186,6 +201,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
                     id="description"
                     name="description"
                     rows={4}
+                    defaultValue={subscription?.description || ""}
                     className="focus:ring-primary-500 focus:border-primary-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     placeholder="Write subscription description here"
                   ></textarea>
@@ -213,7 +229,13 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                {isPending ? "Adding..." : "Add new subscription"}
+                {isPending
+                  ? isEditing
+                    ? "Updating..."
+                    : "Adding..."
+                  : isEditing
+                    ? "Update subscription"
+                    : "Add new subscription"}
               </button>
             </form>
           </div>

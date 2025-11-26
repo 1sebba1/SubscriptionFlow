@@ -16,7 +16,7 @@ export interface Subscription {
   /** Brand or company name */
   brand: string;
 
-  /** Price in USD (as string for display purposes) */
+  /** Price in GBP (as string for display purposes) */
   price: string;
 
   /** Billing frequency (monthly, yearly, weekly, quarterly) */
@@ -27,6 +27,9 @@ export interface Subscription {
 
   /** Brief description of the subscription service */
   description: string;
+
+  /** Date of the first payment (YYYY-MM-DD format, e.g., 2025-11-25) */
+  firstPaymentDate: string;
 }
 
 /**

@@ -23,8 +23,16 @@ export async function addSubscription(
   const category = formData.get("category") as string;
   const description = formData.get("description") as string;
   const frequency = formData.get("frequency") as BillingFrequency;
+  const firstPaymentDate = formData.get("firstPaymentDate") as string;
 
-  if (!name || !brand || !price || !category || !frequency) {
+  if (
+    !name ||
+    !brand ||
+    !price ||
+    !category ||
+    !frequency ||
+    !firstPaymentDate
+  ) {
     return { message: "Please fill in all required fields." };
   }
 
@@ -35,6 +43,7 @@ export async function addSubscription(
     category,
     description,
     frequency,
+    firstPaymentDate,
   });
 
   if (error) {
@@ -44,4 +53,54 @@ export async function addSubscription(
 
   revalidatePath("/");
   return { message: "Subscription added successfully!", success: true };
+}
+
+export async function updateSubscription(
+  prevState: ActionState,
+  formData: FormData,
+) {
+  const cookieStore = cookies();
+  const supabase = await createClient(cookieStore);
+
+  const id = formData.get("id") as string;
+  const name = formData.get("name") as string;
+  const brand = formData.get("brand") as string;
+  const price = formData.get("price") as string;
+  const category = formData.get("category") as string;
+  const description = formData.get("description") as string;
+  const frequency = formData.get("frequency") as BillingFrequency;
+  const firstPaymentDate = formData.get("firstPaymentDate") as string;
+
+  if (
+    !id ||
+    !name ||
+    !brand ||
+    !price ||
+    !category ||
+    !frequency ||
+    !firstPaymentDate
+  ) {
+    return { message: "Please fill in all required fields." };
+  }
+
+  const { error } = await supabase
+    .from("subscriptions")
+    .update({
+      name,
+      brand,
+      price,
+      category,
+      description,
+      frequency,
+      firstPaymentDate,
+    })
+    .eq("id", id);
+
+  if (error) {
+    console.error("Error updating subscription:", error);
+    return { message: "Failed to update subscription." };
+  }
+
+  revalidatePath("/");
+  return { message: "Subscription updated successfully!", success: true };
 }

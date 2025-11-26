@@ -51,7 +51,7 @@ export default function AnalyticsCards({ subscriptions }: AnalyticsCardsProps) {
           Per Day
         </span>
         <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-          ${dailyCost.toFixed(2)}
+          £{dailyCost.toFixed(2)}
         </span>
       </div>
 
@@ -60,7 +60,7 @@ export default function AnalyticsCards({ subscriptions }: AnalyticsCardsProps) {
           Per Week
         </span>
         <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-          ${weeklyCost.toFixed(2)}
+          £{weeklyCost.toFixed(2)}
         </span>
       </div>
 
@@ -69,7 +69,7 @@ export default function AnalyticsCards({ subscriptions }: AnalyticsCardsProps) {
           Per Month
         </span>
         <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-          ${monthlyTotal.toFixed(2)}
+          £{monthlyTotal.toFixed(2)}
         </span>
       </div>
 
@@ -78,7 +78,7 @@ export default function AnalyticsCards({ subscriptions }: AnalyticsCardsProps) {
           Per Year
         </span>
         <span className="text-3xl font-bold text-blue-900 dark:text-blue-300">
-          ${yearlyCost.toFixed(2)}
+          £{yearlyCost.toFixed(2)}
         </span>
       </div>
     </div>

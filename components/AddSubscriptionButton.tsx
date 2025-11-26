@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import AddSubModal from "./AddSubModal";
+import SubscriptionModal from "./SubscriptionModal";
 
 export default function AddSubscriptionButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,7 +33,10 @@ export default function AddSubscriptionButton() {
         Add Subscription
       </button>
 
-      <AddSubModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <SubscriptionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </>
   );
 }
