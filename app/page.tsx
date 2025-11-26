@@ -40,7 +40,7 @@ export default async function Home() {
       </div>
 
       <div className="relative flex w-full max-w-5xl flex-col items-start justify-center gap-12">
-        <div className="relative flex w-full flex-row items-center justify-between gap-6 self-stretch">
+        <div className="relative flex w-full flex-col items-start justify-between gap-6 self-stretch sm:flex-row sm:items-center">
           <div className="relative flex flex-col items-start gap-6">
             <h1 className="relative text-start text-4xl leading-[125%] font-bold text-gray-900 dark:text-gray-200">
               Subscriptions
