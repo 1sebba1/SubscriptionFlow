@@ -16,18 +16,18 @@ export default async function Home() {
   const subscriptions: Subscription[] = data || [];
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start bg-white px-4 py-24 dark:bg-gray-900">
-      <div className="absolute inset-0 size-full">
+    <main className="flex min-h-screen flex-col items-center justify-start overflow-x-hidden bg-white px-4 py-24 dark:bg-gray-900">
+      <div className="absolute inset-0 size-full overflow-hidden">
         <div className="relative h-full w-full select-none">
           <Image
-            className="absolute right-0 min-w-dvh dark:hidden"
+            className="absolute right-0 w-auto dark:hidden"
             alt="Pattern Light"
             src="/pattern-light.svg"
             width="803"
             height="774"
           />
           <Image
-            className="absolute right-0 hidden min-w-dvh dark:block"
+            className="absolute right-0 hidden w-auto dark:block"
             alt="Pattern Dark"
             src="/pattern-dark.svg"
             width="803"
