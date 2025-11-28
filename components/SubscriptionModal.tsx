@@ -61,7 +61,7 @@ export default function SubscriptionModal({
     <>
       {/* Backdrop */}
       <div
-        className="bg-opacity-50 fixed inset-0 z-40 bg-gray-900"
+        className="bg-opacity-50 fixed inset-0 z-40 cursor-pointer bg-gray-900"
         onClick={onClose}
       ></div>
 
@@ -81,7 +81,7 @@ export default function SubscriptionModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="ml-auto inline-flex cursor-pointer items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
               >
                 <svg
                   aria-hidden="true"
@@ -200,18 +200,35 @@ export default function SubscriptionModal({
                 </div>
                 <div>
                   <label
-                    htmlFor="firstPaymentDate"
+                    htmlFor="first_payment_date"
                     className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                   >
                     First Payment Date
                   </label>
                   <input
                     type="date"
-                    name="firstPaymentDate"
-                    id="firstPaymentDate"
-                    defaultValue={subscription?.firstPaymentDate || ""}
+                    name="first_payment_date"
+                    id="first_payment_date"
+                    defaultValue={subscription?.first_payment_date || ""}
                     className="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     required={true}
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="payment_method"
+                    className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Payment Method
+                  </label>
+                  <input
+                    type="text"
+                    name="payment_method"
+                    id="payment_method"
+                    defaultValue={subscription?.payment_method || ""}
+                    className="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                    placeholder="e.g., Credit Card"
+                    required={false}
                   />
                 </div>
                 <div className="sm:col-span-2">
@@ -240,7 +257,7 @@ export default function SubscriptionModal({
                 <button
                   type="submit"
                   disabled={isPending || isDeleting}
-                  className="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:ring-4 focus:outline-none disabled:opacity-50"
+                  className="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex cursor-pointer items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:ring-4 focus:outline-none disabled:opacity-50"
                 >
                   <svg
                     className="mr-1 -ml-1 h-6 w-6"
@@ -268,7 +285,7 @@ export default function SubscriptionModal({
                     type="button"
                     onClick={handleDeleteClick}
                     disabled={isPending || isDeleting}
-                    className="inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-700 focus:ring-4 focus:ring-red-300 focus:outline-none disabled:opacity-50 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
+                    className="inline-flex cursor-pointer items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-700 focus:ring-4 focus:ring-red-300 focus:outline-none disabled:opacity-50 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-800"
                   >
                     <svg
                       className="mr-1 -ml-1 h-5 w-5"

@@ -1,7 +1,12 @@
 /**
  * Billing frequency options for subscriptions
  */
-export type BillingFrequency = "monthly" | "yearly" | "weekly" | "quarterly";
+export type BillingFrequency =
+  | "daily"
+  | "monthly"
+  | "yearly"
+  | "weekly"
+  | "quarterly";
 
 /**
  * Subscription model representing a recurring service subscription
@@ -29,7 +34,12 @@ export interface Subscription {
   description: string;
 
   /** Date of the first payment (YYYY-MM-DD format, e.g., 2025-11-25) */
-  firstPaymentDate: string;
+  first_payment_date: string;
+
+  payment_method: string;
+
+  /** ID of the user who owns this subscription */
+  user_id: string;
 }
 
 /**

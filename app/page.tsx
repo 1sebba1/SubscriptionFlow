@@ -1,6 +1,4 @@
-import { DarkThemeToggle } from "flowbite-react";
 import Image from "next/image";
-import AddSubscriptionButton from "@/components/AddSubscriptionButton";
 import AnalyticsCards from "@/components/AnalyticsCards";
 import SubscriptionList from "@/components/SubscriptionList";
 import { Subscription } from "@/types/subscription";
@@ -36,9 +34,6 @@ export default async function Home() {
             height="775"
           />
         </div>
-      </div>
-      <div className="absolute top-4 right-4">
-        <DarkThemeToggle />
       </div>
 
       <StaggerContainer className="relative flex w-full max-w-7xl flex-col items-start justify-center gap-12">

@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier . --write",
-    "format:check": "prettier . --check"
+    "format:check": "prettier . --check",
+    "clean": "rmdir /s /q .next"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",

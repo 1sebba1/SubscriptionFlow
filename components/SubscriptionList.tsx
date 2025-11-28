@@ -9,6 +9,8 @@ import {
   formatDate,
   getDaysUntilPayment,
 } from "@/utils/dateUtils";
+import { motion } from "motion/react";
+import { useCurrency } from "@/context/CurrencyContext";
 
 interface SubscriptionListProps {
   subscriptions: Subscription[];
@@ -17,6 +19,7 @@ interface SubscriptionListProps {
 export default function SubscriptionList({
   subscriptions,
 }: SubscriptionListProps) {
+  const { symbol } = useCurrency();
   const [editingSubscription, setEditingSubscription] =
     useState<Subscription | null>(null);
 
@@ -38,16 +41,20 @@ export default function SubscriptionList({
       <div className="grid w-full grid-cols-1 gap-4">
         {subscriptions.map((subscription) => {
           const nextPayment = getNextPaymentDate(
-            subscription.firstPaymentDate,
+            subscription.first_payment_date,
             subscription.frequency,
           );
           const daysUntil = getDaysUntilPayment(nextPayment);
 
           return (
-            <div
+            <motion.div
               key={subscription.id}
               onClick={() => setEditingSubscription(subscription)}
               className="flex w-full cursor-pointer flex-col gap-4 rounded-lg border border-gray-200 bg-gray-50 p-6 shadow-sm transition-colors hover:bg-gray-100 md:flex-row md:items-center md:justify-between dark:border-gray-700 dark:bg-gray-800 hover:dark:bg-gray-700"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               {/* Left Section: Basic Info */}
               <div className="flex flex-1 flex-col gap-1">
@@ -86,7 +93,8 @@ export default function SubscriptionList({
 
                 <div className="flex min-w-[80px] flex-col items-end">
                   <span className="text-2xl font-bold text-blue-700 dark:text-blue-400">
-                    £{subscription.price}
+                    {symbol}
+                    {subscription.price}
                   </span>
                   <span className="text-xs text-gray-500 dark:text-gray-400">
                     per{" "}
@@ -100,7 +108,7 @@ export default function SubscriptionList({
                   </span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           );
         })}
       </div>

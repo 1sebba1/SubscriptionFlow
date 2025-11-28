@@ -23,7 +23,8 @@ export async function addSubscription(
   const category = formData.get("category") as string;
   const description = formData.get("description") as string;
   const frequency = formData.get("frequency") as BillingFrequency;
-  const firstPaymentDate = formData.get("firstPaymentDate") as string;
+  const firstPaymentDate = formData.get("first_payment_date") as string;
+  const paymentMethod = formData.get("payment_method") as string;
 
   if (
     !name ||
@@ -36,6 +37,14 @@ export async function addSubscription(
     return { message: "Please fill in all required fields." };
   }
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { message: "You must be logged in to add a subscription." };
+  }
+
   const { error } = await supabase.from("subscriptions").insert({
     name,
     brand,
@@ -43,7 +52,9 @@ export async function addSubscription(
     category,
     description,
     frequency,
-    firstPaymentDate,
+    first_payment_date: firstPaymentDate,
+    payment_method: paymentMethod,
+    user_id: user.id,
   });
 
   if (error) {
@@ -69,7 +80,8 @@ export async function updateSubscription(
   const category = formData.get("category") as string;
   const description = formData.get("description") as string;
   const frequency = formData.get("frequency") as BillingFrequency;
-  const firstPaymentDate = formData.get("firstPaymentDate") as string;
+  const firstPaymentDate = formData.get("first_payment_date") as string;
+  const paymentMethod = formData.get("payment_method") as string;
 
   if (
     !id ||
@@ -92,7 +104,8 @@ export async function updateSubscription(
       category,
       description,
       frequency,
-      firstPaymentDate,
+      first_payment_date: firstPaymentDate,
+      payment_method: paymentMethod,
     })
     .eq("id", id);
 

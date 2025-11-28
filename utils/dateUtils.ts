@@ -2,21 +2,22 @@ import { BillingFrequency } from "@/types/subscription";
 
 /**
  * Calculate the next payment date based on the first payment date and billing frequency
+ * Returns date string in YYYY-MM-DD format
  */
 export function getNextPaymentDate(
   firstPaymentDate: string,
   frequency: BillingFrequency,
-): Date {
+): string {
   const firstDate = new Date(firstPaymentDate);
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Reset time to start of day for accurate comparison
 
   // If the first payment is in the future, return it
   if (firstDate >= today) {
-    return firstDate;
+    return formatDateToYYYYMMDD(firstDate);
   }
 
-  let nextDate = new Date(firstDate);
+  const nextDate = new Date(firstDate);
 
   // Calculate the next payment date based on frequency
   switch (frequency) {
@@ -49,13 +50,24 @@ export function getNextPaymentDate(
       break;
   }
 
-  return nextDate;
+  return formatDateToYYYYMMDD(nextDate);
+}
+
+/**
+ * Format a Date object to YYYY-MM-DD string
+ */
+function formatDateToYYYYMMDD(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 /**
  * Format a date as a readable string (e.g., "Nov 25, 2025")
  */
-export function formatDate(date: Date): string {
+export function formatDate(dateStr: string): string {
+  const date = new Date(dateStr);
   return date.toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -66,7 +78,8 @@ export function formatDate(date: Date): string {
 /**
  * Get the number of days until the next payment
  */
-export function getDaysUntilPayment(nextPaymentDate: Date): number {
+export function getDaysUntilPayment(nextPaymentDateStr: string): number {
+  const nextPaymentDate = new Date(nextPaymentDateStr);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const diffTime = nextPaymentDate.getTime() - today.getTime();

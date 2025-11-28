@@ -31,7 +31,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
     <>
       {/* Backdrop */}
       <div
-        className="bg-opacity-50 fixed inset-0 z-40 bg-gray-900"
+        className="bg-opacity-50 fixed inset-0 z-40 cursor-pointer bg-gray-900"
         onClick={onClose}
       ></div>
 
@@ -51,7 +51,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
               <button
                 type="button"
                 onClick={onClose}
-                className="ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+                className="ml-auto inline-flex cursor-pointer items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
               >
                 <svg
                   aria-hidden="true"
@@ -162,15 +162,15 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
                 </div>
                 <div>
                   <label
-                    htmlFor="firstPaymentDate"
+                    htmlFor="first_payment_date"
                     className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                   >
                     First Payment Date
                   </label>
                   <input
                     type="date"
-                    name="firstPaymentDate"
-                    id="firstPaymentDate"
+                    name="first_payment_date"
+                    id="first_payment_date"
                     className="focus:ring-primary-600 focus:border-primary-600 dark:focus:ring-primary-500 dark:focus:border-primary-500 block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     required={true}
                   />
@@ -199,7 +199,7 @@ export default function AddSubModal({ isOpen, onClose }: AddSubModalProps) {
               <button
                 type="submit"
                 disabled={isPending}
-                className="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:ring-4 focus:outline-none disabled:opacity-50"
+                className="bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 inline-flex cursor-pointer items-center rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white focus:ring-4 focus:outline-none disabled:opacity-50"
               >
                 <svg
                   className="mr-1 -ml-1 h-6 w-6"
